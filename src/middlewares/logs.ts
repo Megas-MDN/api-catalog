@@ -1,4 +1,6 @@
-module.exports = (req, _res, next) => {
+import { NextFunction, Request, Response } from "express";
+
+export const logs = (req: Request, _res: Response, next: NextFunction) => {
   const dev = process.env.NODE_ENV !== "production";
   if (!dev) return next();
   const { method, url, body, query } = req;
@@ -13,5 +15,5 @@ module.exports = (req, _res, next) => {
         : ""
     }\n____________________________________`,
   );
-  next();
+  return next();
 };

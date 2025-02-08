@@ -1,7 +1,9 @@
-module.exports = (req, res) => {
+import { Request, Response } from "express";
+
+export const notImplemented = (req: Request, res: Response) => {
   const { body } = req.body;
   const { authorization } = req.headers;
-  return res.status(501).send({
+  res.status(501).send({
     message: "Route not implemented",
     url: req.url,
     method: req.method,

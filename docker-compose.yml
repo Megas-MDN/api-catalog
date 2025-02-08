@@ -1,0 +1,21 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # A variável NODE_ENV deve ser "development" ou "production"
+      target: ${NODE_ENV}
+    container_name: api
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      DATABASE_URL: ${DATABASE_URL}
+    volumes:
+      - .:/app
+    networks:
+      - shared-catalog-network
+
+networks:
+  shared-catalog-network:
+    external: true
