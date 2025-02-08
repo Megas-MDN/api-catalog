@@ -13,8 +13,10 @@ COPY . .
 # -----------------------------
 FROM base AS development
 EXPOSE 3001
-CMD ["npx", "ts-node-dev", "--respawn", "--transpile-only", "src/index.ts"]
-
+# Instala o ts-node-dev globalmente (caso necessário)
+RUN npm install -g ts-node-dev
+# Define o comando com monitoramento de diretórios específicos
+CMD ["npx", "ts-node-dev", "--respawn", "--transpile-only", "--watch", "src/**/*", "src/index.ts"]
 # -----------------------------
 # Etapa de build para produção: compila o TypeScript
 # -----------------------------
