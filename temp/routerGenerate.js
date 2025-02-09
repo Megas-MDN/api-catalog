@@ -222,7 +222,7 @@ const main = async () => {
   await modelFileGen();
   await genZodValiddations();
 
-  exec(`yarn lint:fix`, (error, stdout) => {
+  exec(`npx prettier --write .`, (error, stdout) => {
     if (error) {
       console.error(`Erro ao executar lint o arquivo: ${error.message}`);
     }
