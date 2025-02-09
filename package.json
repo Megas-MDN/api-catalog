@@ -8,6 +8,7 @@
     "build": "npm run clean && npx prisma generate && npx tsc",
     "start": "node --env-file .env dist/index.js --trace-warnings",
     "build:start": "npm run build && npm start",
+    "gen": "node temp/routerGenerate.js",
     "db:up": "docker compose -f docker-compose-db.yml up -d --build",
     "db:down": "docker compose -f docker-compose-db.yml down --remove-orphans",
     "db:clean": "docker compose -f docker-compose-db.yml down -v --remove-orphans",
