@@ -110,6 +110,7 @@ ${customRequest ? customRequest : ""}
 import { ${up1(newResourceName)}Service } from "../services/${up1(
     newResourceName,
   )}Service";
+import { STATUS_CODE } from "../constants/statusCode";
 
 export class ${up1(newResourceName)}Controller {
   private ${newResourceName}Service = new ${up1(newResourceName)}Service();
@@ -118,7 +119,7 @@ export class ${up1(newResourceName)}Controller {
     customRequest ? `CustomRequest<unknown>` : `Request`
   }, res: Response) {
     const result = await this.${newResourceName}Service.listAll(req.query);
-    return res.status(200).json(result);
+    return res.status(STATUS_CODE.OK).json(result);
   }
 }
   `.trim();
