@@ -117,7 +117,7 @@ export class ${up1(newResourceName)}Controller {
   async listAll(req: ${
     customRequest ? `CustomRequest<unknown>` : `Request`
   }, res: Response) {
-    const result = await this.${newResourceName}Service.listAll();
+    const result = await this.${newResourceName}Service.listAll(req.query);
     return res.status(200).json(result);
   }
 }
@@ -133,12 +133,14 @@ const serviceFileGen = async () => {
 import { ${up1(newResourceName)}Model } from "../models/${up1(
     newResourceName,
   )}Model";
+import { querySchema } from "../validations/Queries/listAll";
 
 export class ${up1(newResourceName)}Service {
   private ${newResourceName}Model = new ${up1(newResourceName)}Model()
 
-  async listAll() {
-    return this.${newResourceName}Model.listAll();
+  async listAll(query: unknown) {
+    const validQuery = querySchema.parse(query);
+    return this.${newResourceName}Model.listAll(validQuery);
   }
 }
   `.trim();
@@ -150,10 +152,19 @@ export class ${up1(newResourceName)}Service {
 };
 
 const modelFileGen = async () => {
-  const model = `
+  const model = `import { prisma } from "../db/prisma";
+  import { TQuery } from "../validations/Queries/listAll";
+
 export class ${up1(newResourceName)}Model {
-  async listAll() {
-    return { result: [], totalCount: 0 };
+  async listAll(query: TQuery) {
+    const limit = query.limit || 20;
+    const skip = query.page ? query.page * limit : query.offset || 0;
+    const orderBy =
+      query.orderBy?.map(({ field, direction }) => ({
+        [field]: direction,
+      })) || [];
+
+    return { result: [], totalCount: 0, limit, skip, orderBy };
   }
 }
   `.trim();
