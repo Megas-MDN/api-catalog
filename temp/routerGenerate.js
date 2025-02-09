@@ -165,19 +165,7 @@ export class ${up1(newResourceName)}Model {
   );
 };
 
-const setResourceName = () => {
-  const indexFlagName = process.argv.findIndex(
-    (arg) => arg === "--name" || arg === "-n",
-  );
-  newResourceName =
-    indexFlagName > -1
-      ? process.argv[indexFlagName + 1]
-        ? process.argv[indexFlagName + 1]
-        : newResourceName
-      : newResourceName;
-};
 
-// criar os schemas zod
 const genZodValiddations = async () => {
   const folder = path.resolve(validations, up1(newResourceName));
   await fs.mkdir(folder, { recursive: true });
@@ -206,8 +194,19 @@ export type TUpdate${up1(newResourceName)} = z.infer<typeof update${up1(newResou
   );
 };
 
+
+const setResourceName = () => {
+  const resourceName =  process.argv[process.argv.length - 1]
+
+  newResourceName =
+    resourceName
+      ? resourceName
+      : newResourceName;
+};
+
 const main = async () => {
   setResourceName();
+  if(!newResourceName) return;
   try {
     await fs.readFile(
       path.resolve(controllerFolder, `${up1(newResourceName)}Controller.ts`),
