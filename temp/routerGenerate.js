@@ -153,7 +153,6 @@ const modelFileGen = async () => {
   const model = `
 export class ${up1(newResourceName)}Model {
   async listAll() {
-    console.log({ id${up1(newResourceName)} });
     return { result: [], totalCount: 0 };
   }
 }
@@ -221,12 +220,14 @@ const main = async () => {
   await modelFileGen();
   await genZodValiddations();
 
+  console.log("Recursos com sucesso");
+
   exec(`npx prettier --write .`, (error, stdout) => {
     if (error) {
-      console.error(`Erro ao executar lint o arquivo: ${error.message}`);
+      console.error(`Erro ao executar prettier o arquivo: ${error.message}`);
     }
 
-    console.log(`Saiu com sucesso do lint: ${stdout}`);
+    console.log(`Saiu com sucesso do prettier: ${stdout}`);
   });
 };
 
