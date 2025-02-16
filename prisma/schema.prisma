@@ -10,12 +10,126 @@ datasource db {
 }
 
 model user {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   
-  password  String
-  createdAt DateTime? @default(now())
-  updatedAt DateTime?  @default(now())
-  deletedAt DateTime?
+  idUser       Int         @id @default(autoincrement())
+  name         String
+  email        String      @unique
+  password     String?
+  imageProfile String?     @db.VarChar(300)
+  isFromGoogle Boolean?    @default(false)
+  createdAt    DateTime?   @default(now())
+  updatedAt    DateTime?   @default(now())
+  deletedAt    DateTime?
+  userStore    userStore[]
 }
 
+model store {
+  idStore           Int         @id @default(autoincrement())
+  name              String?
+  email             String?
+  phone             String?
+  description       String?     @db.Text
+  adress            String?     @db.VarChar(300)
+  coordinates       String?     @db.VarChar(300)
+  imageProfile      String?     @db.VarChar(300)
+  imageCoverProfile String?     @db.VarChar(300)
+  createdAt         DateTime?   @default(now())
+  updatedAt         DateTime?   @default(now())
+  deletedAt         DateTime?
+  catalog           catalog[]
+  userStore         userStore[]
+}
+
+model userStore {
+  idUser  Int
+  idStore Int
+
+  user  user  @relation(fields: [idUser], references: [idUser])
+  store store @relation(fields: [idStore], references: [idStore])
+
+  @@unique([idUser, idStore])
+}
+
+model catalog {
+  idCatalog Int     @id @default(autoincrement())
+  idStore   Int
+  name      String?
+  slug      String?
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  deletedAt DateTime?
+
+  product        product[]
+  store          store            @relation(fields: [idStore], references: [idStore])
+  catalogProduct catalogProduct[]
+}
+
+model product {
+  idProduct        Int            @id @default(autoincrement())
+  idCatalog        Int
+  name             String?
+  brand            String?
+  barcode          String?
+  price            Decimal?       @default(0)
+  priceAcquisition Decimal?       @default(0)
+  qtd              Int?
+  description      String?        @db.Text
+  createdAt        DateTime?      @default(now())
+  updatedAt        DateTime?      @default(now())
+  deletedAt        DateTime?
+  productTag       productTag[]
+  productImage     productImage[]
+
+  catalog        catalog          @relation(fields: [idCatalog], references: [idCatalog])
+  catalogProduct catalogProduct[]
+}
+
+model catalogProduct {
+  idCatalog Int
+  idProduct Int
+
+  product product @relation(fields: [idProduct], references: [idProduct])
+  catalog catalog @relation(fields: [idCatalog], references: [idCatalog])
+
+  @@unique([idProduct, idCatalog])
+}
+
+model tag {
+  idTag      Int          @id @default(autoincrement())
+  name       String       @unique
+  createdAt  DateTime?    @default(now())
+  updatedAt  DateTime?    @default(now())
+  deletedAt  DateTime?
+  productTag productTag[]
+}
+
+model productTag {
+  idProduct Int
+  idTag     Int
+
+  product product @relation(fields: [idProduct], references: [idProduct])
+  tag     tag     @relation(fields: [idTag], references: [idTag])
+
+  @@unique([idProduct, idTag])
+}
+
+model image {
+  idImage Int    @id @default(autoincrement())
+  src     String @unique @db.VarChar(300)
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  deletedAt DateTime?
+
+  productImage productImage[]
+}
+
+model productImage {
+  idImage   Int
+  idProduct Int
+
+  product product @relation(fields: [idProduct], references: [idProduct])
+  image   image   @relation(fields: [idImage], references: [idImage])
+
+  @@unique([idProduct, idImage])
+}

@@ -10,5 +10,6 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV}
       DATABASE_URL: ${DATABASE_URL}
+      DIRECT_URL: ${DATABASE_URL}
     volumes:
-      - .:/app
+      - .env:/app/.env

@@ -43,6 +43,7 @@ async function main() {
 
     try {
       tablesTryAgain = tablesTryAgain.filter((t) => t !== table);
+      // @ts-ignore
       await prisma[table].createMany({ data });
     } catch (error) {
       if (
@@ -56,6 +57,7 @@ async function main() {
             const newData = data.map((item) => {
               return { ...item, sent_timestamp: BigInt(item.sent_timestamp) };
             });
+            // @ts-ignore
             await prisma[table].createMany({
               data: newData,
             });
@@ -75,6 +77,7 @@ async function main() {
       const table = arrTables[i];
       try {
         tablesTryAgain = tablesTryAgain.filter((t) => t !== table);
+        // @ts-ignore
         await prisma[table].deleteMany({});
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {

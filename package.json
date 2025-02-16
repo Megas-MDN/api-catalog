@@ -9,7 +9,7 @@
     "start": "node --env-file .env dist/index.js --trace-warnings",
     "build:start": "npm run build && npm start",
     "gen": "node temp/routerGenerate.js",
-    "db:up": "docker compose -f docker-compose-db.yml up -d --build",
+    "db:up": "docker compose -f docker-compose-db.yml up -d --build --remove-orphans",
     "db:down": "docker compose -f docker-compose-db.yml down --remove-orphans",
     "db:clean": "docker compose -f docker-compose-db.yml down -v --remove-orphans",
     "dc:bkp": "docker exec -t postgres pg_dumpall -c -U postgres > backup.sql",
