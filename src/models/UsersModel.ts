@@ -44,6 +44,10 @@ export class UsersModel {
     return prisma.user.findUnique({ where: { idUser } });
   }
 
+  async getByEmail(email: string) {
+    return prisma.user.findUnique({ where: { email } });
+  }
+
   async create(data: TCreateUsers) {
     return prisma.user.create({ data });
   }
