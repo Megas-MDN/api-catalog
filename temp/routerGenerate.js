@@ -77,12 +77,6 @@ ${importMiddleAuth ? importMiddleAuth : ""}
 import { ${up1(newResourceName)}Controller } from "../controllers/${up1(
     newResourceName,
   )}Controller";
-import { ${up1(newResourceName)}Service } from "../services/${up1(
-    newResourceName,
-  )}Service";
-import { ${up1(newResourceName)}Model } from "../models/${up1(
-    newResourceName,
-  )}Model";
 import { API_VERSION, ROOT_PATH } from "../constants/basePathRoutes";
 
 const BASE_PATH = API_VERSION.${apiVersion} + ROOT_PATH.${newResourceName.toUpperCase()}; // /api/${apiVersion.toLowerCase()}/${newResourceName.toLowerCase()}
