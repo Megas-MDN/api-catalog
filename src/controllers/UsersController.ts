@@ -2,6 +2,7 @@ import { Response } from "express";
 import { CustomRequest } from "../types/custom";
 import { UsersService } from "../services/UsersService";
 import { STATUS_CODE } from "../constants/statusCode";
+import { loginUserSchema } from "../validations/Users/loginUserSchema";
 
 export class UsersController {
   private usersService = new UsersService();
@@ -31,6 +32,18 @@ export class UsersController {
 
   async delete(req: CustomRequest<unknown>, res: Response) {
     const result = await this.usersService.delete(Number(req.params.idUser));
+    return res.status(STATUS_CODE.OK).json(result);
+  }
+
+  async register(req: CustomRequest<unknown>, res: Response) {
+    const result = await this.usersService.register(req.body);
+    return res.status(STATUS_CODE.CREATED).json(result);
+  }
+
+  async login(req: CustomRequest<unknown>, res: Response) {
+    const result = await this.usersService.login(
+      loginUserSchema.parse(req.body),
+    );
     return res.status(STATUS_CODE.OK).json(result);
   }
 }

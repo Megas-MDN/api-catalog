@@ -8,6 +8,14 @@ const usersRoutes = Router();
 
 const usersController = new UsersController();
 
+usersRoutes.post(`${BASE_PATH}/register`, async (req, res) => {
+  await usersController.register(req, res);
+});
+
+usersRoutes.post(`${BASE_PATH}/login`, async (req, res) => {
+  await usersController.login(req, res);
+});
+
 usersRoutes.get(`${BASE_PATH}`, async (req, res) => {
   await usersController.listAll(req, res);
 });
