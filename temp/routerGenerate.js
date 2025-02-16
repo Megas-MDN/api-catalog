@@ -256,7 +256,7 @@ export class ${up1(newResourceName)}Model {
     return prisma.${singular}.create({ data });
   }
 
-  async update(id${up1(newResourceName)}: number, data: TUpdate${up1(newResourceName)}) {
+  async update(id${up1(singular)}: number, data: TUpdate${up1(newResourceName)}) {
     return prisma.${singular}.update({
       where: { id${up1(singular)} },
       data,
